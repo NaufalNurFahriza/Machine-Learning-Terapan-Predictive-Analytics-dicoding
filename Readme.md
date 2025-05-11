@@ -25,7 +25,7 @@ Melatih dan mengevaluasi model LSTM menggunakan data historis harga saham TLKM a
 
 ## Data Understanding
 
-Dataset: TLKM.JK Stock Historical Data (2019-2024)
+Dataset: [TLKM.JK Stock Historical Data (2019-2024)](https://www.kaggle.com/datasets/irfansaputranst/dataset-saham-tlkm-jk).
 
 ### Gambaran Umum Dataset
 
@@ -44,19 +44,15 @@ Tidak terdapat nilai null, dan seluruh data bertipe numerik.
 
 ### Korelasi Antar Variabel
 
-![Korelasi Variabel](attachment\:file-Gt2QUXyCvEGNyREHYnbxGV)
+![Korelasi Variabel](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/matriks%20korelasi.png)
 
 Dari grafik di atas, terlihat korelasi tinggi antara variabel harga (Close, Open, High, Low, Adj Close) dan korelasi rendah antara Volume dan variabel harga lainnya. Ini menunjukkan bahwa variabel harga bergerak secara searah, sementara volume relatif independen.
 
 ### Visualisasi Harga
 
-1. Grafik Harga Tertinggi dan Terendah TLKM:
+Grafik Harga Tertinggi dan Terendah TLKM:
 
-![Harga High Low](attachment\:file-4Yxt3DyrGqqKAfyx6iYihN)
-
-2. Grafik Perkembangan Harga Penutupan dan Prediksi:
-
-![Prediksi Harga](attachment\:file-MSjpUGH27vGYjXXfXTLuBZ)
+![Harga High Low](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/High%20and%20low%20TLKM%20Stock.png)
 
 ## Data Preparation
 
@@ -93,7 +89,7 @@ Data diubah menjadi format 3 dimensi (samples, timesteps, features) yang diperlu
 
 Model dilatih selama 100 epoch. Hasil pelatihan menunjukkan konvergensi yang baik:
 
-![Losses](attachment\:file-XPrcRRZLdC1nP3ayGTHDCy)
+![Losses](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/losses.png)
 
 Loss (MSE) dan MAE menurun secara signifikan selama pelatihan, menandakan proses belajar yang stabil.
 
@@ -106,7 +102,7 @@ Model diuji menggunakan data uji (243 observasi), dan hasil evaluasi menunjukkan
 
 Hasil prediksi juga divisualisasikan dan dibandingkan dengan data aktual:
 
-![Prediksi Saham](attachment\:file-MSjpUGH27vGYjXXfXTLuBZ)
+![Prediksi Saham](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/prediksi%20saham.png)
 
 Model menunjukkan kemampuan yang baik dalam mengikuti tren harga aktual pada data uji. Garis prediksi (kuning) cukup dekat dengan data aktual (merah), menunjukkan performa prediktif yang akurat.
 
