@@ -44,7 +44,7 @@ Tidak terdapat nilai null, dan seluruh data bertipe numerik.
 
 ### Korelasi Antar Variabel
 
-![Korelasi Variabel](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/matriks%20korelasi.png)
+![Korelasi Variabel](matriks_korelasi.png)
 
 Dari grafik di atas, terlihat korelasi tinggi antara variabel harga (Close, Open, High, Low, Adj Close) dan korelasi rendah antara Volume dan variabel harga lainnya. Ini menunjukkan bahwa variabel harga bergerak secara searah, sementara volume relatif independen.
 
@@ -52,7 +52,7 @@ Dari grafik di atas, terlihat korelasi tinggi antara variabel harga (Close, Open
 
 Grafik Harga Tertinggi dan Terendah TLKM:
 
-![Harga High Low](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/High%20and%20low%20TLKM%20Stock.png)
+![Harga High Low](High_and_low_TLKM_Stock.png)
 
 ## Data Preparation
 
@@ -89,7 +89,7 @@ Data diubah menjadi format 3 dimensi (samples, timesteps, features) yang diperlu
 
 Model dilatih selama 100 epoch. Hasil pelatihan menunjukkan konvergensi yang baik:
 
-![Losses](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/losses.png)
+![Losses](losses.png)
 
 Loss (MSE) dan MAE menurun secara signifikan selama pelatihan, menandakan proses belajar yang stabil.
 
@@ -102,7 +102,7 @@ Model diuji menggunakan data uji (243 observasi), dan hasil evaluasi menunjukkan
 
 Hasil prediksi juga divisualisasikan dan dibandingkan dengan data aktual:
 
-![Prediksi Saham](https://github.com/NaufalNurFahriza/Machine-Learning-Terapan-Predictive-Analytics-dicoding/blob/main/prediksi%20saham.png)
+![Prediksi Saham](prediksi_saham.png)
 
 Model menunjukkan kemampuan yang baik dalam mengikuti tren harga aktual pada data uji. Garis prediksi (kuning) cukup dekat dengan data aktual (merah), menunjukkan performa prediktif yang akurat.
 
