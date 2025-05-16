@@ -21,7 +21,9 @@ Mengembangkan model LSTM untuk memprediksi harga penutupan saham TLKM secara aku
 
 ### Solution Statements
 
-Melatih dan mengevaluasi model LSTM menggunakan data historis harga saham TLKM agar dapat memprediksi harga penutupan masa depan dengan akurasi tinggi.
+- Menggunakan arsitektur LSTM dengan optimasi hyperparameter
+- Memanfaatkan data 5 tahun (2019-2024) untuk pelatihan
+- Evaluasi menggunakan metrik MAE dan MSE
 
 ## Data Understanding
 
@@ -31,14 +33,19 @@ Dataset: [TLKM.JK Stock Historical Data (2019-2024)](https://www.kaggle.com/data
 
 Berkas CSV yang digunakan memiliki total **1212 baris** dan **6 kolom**, yaitu:
 
-| # | Kolom     | Tipe Data |
-| - | --------- | --------- |
-| 0 | Adj Close | float64   |
-| 1 | Close     | float64   |
-| 2 | High      | float64   |
-| 3 | Low       | float64   |
-| 4 | Open      | float64   |
-| 5 | Volume    | float64   |
+| Kolom | Tipe Data | Deskripsi |
+|-------|-----------|-----------|
+| Date | datetime | Tanggal pencatatan |
+| Open | float64 | Harga pembukaan |
+| High | float64 | Harga tertinggi harian |
+| Low | float64 | Harga terendah harian |
+| Close | float64 | Harga penutupan |
+| Volume | float64 | Volume perdagangan |
+
+**Statistik Deskriptif**:
+- Periode: 07/11/2019 - 22/10/2024
+- Jumlah data: 1,212 observasi
+- Tidak ada missing values
 
 Tidak terdapat nilai null, dan seluruh data bertipe numerik.
 
@@ -47,6 +54,10 @@ Tidak terdapat nilai null, dan seluruh data bertipe numerik.
 ![Korelasi Variabel](matriks_korelasi.png)
 
 Dari grafik di atas, terlihat korelasi tinggi antara variabel harga (Close, Open, High, Low, Adj Close) dan korelasi rendah antara Volume dan variabel harga lainnya. Ini menunjukkan bahwa variabel harga bergerak secara searah, sementara volume relatif independen.
+
+**Insight**:
+- Korelasi sangat kuat (>0.99) antar variabel harga (Open, High, Low, Close)
+- Korelasi rendah antara Volume dan harga (~0.1)
 
 ### Visualisasi Harga
 
@@ -81,11 +92,25 @@ Data diubah menjadi format 3 dimensi (samples, timesteps, features) yang diperlu
 
 ### Arsitektur Model LSTM:
 
-* LSTM(50 units, return\_sequences=True)
-* Dropout(0.2)
-* LSTM(64 units, return\_sequences=False)
-* Dropout(0.2)
-* Dense(32) → Dense(16) → Dense(1)
+```python
+model = Sequential([
+    LSTM(64, return_sequences=True, input_shape=(60, 1)),
+    Dropout(0.2),
+    LSTM(64, return_sequences=False),
+    Dropout(0.2),
+    Dense(32, activation='relu'),
+    Dense(16, activation='relu'),
+    Dense(1)
+])
+```
+
+**Parameter Pelatihan**:
+- Optimizer: Adam
+- Loss function: MSE
+- Metrics: MAE
+- Epochs: 100
+- Batch size: 32
+- Callback: EarlyStopping
 
 Model dilatih selama 100 epoch. Hasil pelatihan menunjukkan konvergensi yang baik:
 
@@ -93,24 +118,34 @@ Model dilatih selama 100 epoch. Hasil pelatihan menunjukkan konvergensi yang bai
 
 Loss (MSE) dan MAE menurun secara signifikan selama pelatihan, menandakan proses belajar yang stabil.
 
-## Evaluation
+### Metrik Evaluasi
+| Metric | Nilai |
+|--------|-------|
+| Test Loss (MSE) | 0.000883 |
+| Test MAE | 0.0224 |
+| MAE Aktual | 49.53 IDR |
+| Error Relatif | 1.42% |
 
-Model diuji menggunakan data uji (243 observasi), dan hasil evaluasi menunjukkan:
-
-* **Loss**: 0.0016
-* **MAE**: 0.0318
+### Visualisasi Prediksi
 
 Hasil prediksi juga divisualisasikan dan dibandingkan dengan data aktual:
 
 ![Prediksi Saham](prediksi_saham.png)
 
-Model menunjukkan kemampuan yang baik dalam mengikuti tren harga aktual pada data uji. Garis prediksi (kuning) cukup dekat dengan data aktual (merah), menunjukkan performa prediktif yang akurat.
+**Analisis**:
+- Model mampu mengikuti tren utama
+- Deviasi terjadi pada periode volatilitas tinggi
+- MAE 49.53 IDR termasuk sangat baik untuk prediksi saham
 
-## Kesimpulan
 
-Model LSTM yang digunakan pada dataset saham TLKM mampu mempelajari pola historis dengan baik dan menghasilkan prediksi harga penutupan yang akurat, dengan MAE sebesar **0.0318** (3.18%). Ini membuktikan efektivitas LSTM dalam menangkap dinamika pasar saham jangka pendek hingga menengah.
+### Temuan Utama:
+1. Model mencapai akurasi tinggi dengan MAE 1.42%
+2. Arsitektur LSTM 2-layer efektif untuk pola data ini
 
-Model ini bisa dijadikan dasar untuk pengembangan sistem rekomendasi investasi berbasis AI di masa depan.
+### Rekomendasi:
+1. Penambahan fitur fundamental dan teknikal
+2. Optimasi hyperparameter lebih lanjut
+3. Implementasi ensemble dengan model lainnya
 
 ---
 
