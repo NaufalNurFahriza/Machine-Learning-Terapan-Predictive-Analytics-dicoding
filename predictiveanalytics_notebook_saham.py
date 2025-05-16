@@ -374,34 +374,14 @@ print(f"MAE dalam Skala Aktual: {np.mean(np.abs(predictions - y_test_actual)):.2
 
 """## **4. Visualisasi Prediksi vs Aktual**"""
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-
-# Baca data (pastikan format tanggal konsisten)
-df = pd.read_csv('SAHAM - PT Telekomunikasi Indonesia Tbk (TLKM.JK) - Sheet1.csv', parse_dates=['Date'], dayfirst=True)  # dayfirst=True untuk format DD/MM
-df.set_index('Date', inplace=True)
-
-# Konversi Volume ke numerik (jika ada tanda titik)
-df['Volume'] = df['Volume'].str.replace('.', '').astype(float)
-
-# Visualisasi Volume
 plt.figure(figsize=(16, 6))
-plt.plot(df.index, df['Volume'], color='royalblue', linewidth=1.5)
-
-# Konfigurasi sumbu x
-ax = plt.gca()
-ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))  # Label tiap 2 bulan
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y'))  # Format DD/MM/YYYY
-
-plt.title('VOLUME PERDAGANGAN SAHAM TLKM', fontsize=14, pad=20, fontweight='bold')
-plt.xlabel('Tanggal', fontsize=12)
-plt.ylabel('Volume (Juta Lembar)', fontsize=12)
-plt.grid(True, linestyle='--', alpha=0.6)
-
-# Rotasi label tanggal
-plt.xticks(rotation=45, ha='right')
-plt.tight_layout()
+plt.plot(df.index[-len(y_test_actual):], y_test_actual, label='Harga Aktual', linewidth=2)
+plt.plot(df.index[-len(predictions):], predictions, label='Prediksi', linewidth=2, linestyle='--')
+plt.title('Perbandingan Harga Aktual dan Prediksi Saham TLKM', fontsize=14)
+plt.xlabel('Tanggal')
+plt.ylabel('Harga Penutupan (IDR)')
+plt.legend()
+plt.grid(True)
 plt.show()
 
 """**Analisis Visual**:
