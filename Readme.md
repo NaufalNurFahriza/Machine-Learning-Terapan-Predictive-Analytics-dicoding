@@ -1,130 +1,135 @@
-Berikut adalah perbaikan laporan proyek sesuai dengan template dan catatan dari Reviewer:
-
----
+Here's the improved project report that follows both your original content and the submission template requirements:
 
 # Laporan Proyek Machine Learning - Prediksi Harga Saham TLKM Menggunakan LSTM
 
 ## Domain Proyek
 
 **Latar Belakang**:  
-PT Telekomunikasi Indonesia Tbk (TLKM) adalah salah satu perusahaan BUMN terbesar di Indonesia di sektor telekomunikasi. Harga saham TLKM menjadi indikator penting bagi investor karena mencerminkan stabilitas dan prospek bisnis sektor telekomunikasi nasional. Namun, harga saham TLKM sangat fluktuatif dan dipengaruhi oleh berbagai faktor seperti kondisi pasar, kebijakan pemerintah, dan sentimen investor.  
+PT Telekomunikasi Indonesia Tbk (TLKM) adalah perusahaan BUMN terbesar di sektor telekomunikasi Indonesia. Harga saham TLKM yang fluktuatif menjadi tantangan bagi investor karena dipengaruhi berbagai faktor seperti kondisi pasar dan kebijakan pemerintah. Prediksi harga saham yang akurat dapat membantu pengambilan keputusan investasi.
 
-Dengan kemajuan *Machine Learning (ML)*, analisis data historis dapat digunakan untuk memprediksi harga saham. Metode LSTM (Long Short-Term Memory) sangat efektif untuk prediksi data time series karena mampu menangkap pola jangka panjang dan kompleks dalam data historis. Prediksi ini dapat membantu investor dalam pengambilan keputusan.  
+**Mengapa Masalah Ini Penting**:  
+- Volatilitas harga saham menyebabkan risiko investasi tinggi
+- Analisis manual tidak mampu menangkap pola kompleks dalam data historis
+- Kebutuhan alat prediksi berbasis data untuk mengurangi subjektivitas
 
 **Penelitian Terkait**:  
-Windha Mega Pradnya Dhuhita (2023) dalam penelitiannya menyatakan bahwa LSTM, terutama dengan optimasi hiperparameter, mampu memprediksi harga aset seperti saham dan emas secara akurat menggunakan data historis. Referensi: [IEEE](https://doi.org/10.1109/ICIMCIS60089.2023.10349035).  
-
----
+Windha Mega Pradnya Dhuhita (2023) membuktikan efektivitas LSTM untuk prediksi harga aset dengan akurasi tinggi. Referensi: [IEEE](https://doi.org/10.1109/ICIMCIS60089.2023.10349035).
 
 ## Business Understanding
 
-### Problem Statements  
-1. Harga saham TLKM sangat fluktuatif dan sulit diprediksi secara manual karena dipengaruhi banyak faktor.  
-2. Diperlukan model prediksi berbasis ML yang akurat untuk membantu investor memproyeksikan harga saham TLKM di masa depan.  
+### Problem Statements
+1. Fluktuasi harga saham TLKM yang tinggi menyulitkan prediksi manual
+2. Kebutuhan model prediksi akurat untuk membantu keputusan investasi
 
-### Goals  
-1. Mengembangkan model prediksi harga saham TLKM yang akurat menggunakan data historis.  
-2. Membantu investor memahami tren harga saham TLKM melalui prediksi berbasis LSTM.  
+### Goals
+1. Mengembangkan model prediksi harga saham berbasis LSTM dengan akurasi tinggi
+2. Memberikan alat bantu objektif untuk analisis tren harga saham
 
-### Solution Statements  
-- Menggunakan arsitektur LSTM dengan optimasi hyperparameter untuk menangkap pola data time series.  
-- Memanfaatkan data historis 5 tahun (2019-2024) untuk pelatihan dan validasi model.  
-- Evaluasi model menggunakan metrik MAE (Mean Absolute Error) dan MSE (Mean Squared Error) untuk mengukur akurasi prediksi.  
-
----
+### Solution Statements
+- Implementasi arsitektur LSTM dua lapis dengan dropout
+- Pemanfaatan data 5 tahun (2019-2024) untuk pelatihan model
+- Evaluasi menggunakan MAE dan MSE untuk mengukur akurasi prediksi
 
 ## Data Understanding
 
-**Sumber Dataset**: [Yahoo Finance - TLKM.JK](https://finance.yahoo.com/quote/TLKM.JK)  
+**Sumber Dataset**: [Yahoo Finance - TLKM.JK](https://finance.yahoo.com/quote/TLKM.JK)
 
-### Variabel-variabel pada Dataset:  
-| Kolom      | Tipe Data | Deskripsi                     |  
-|------------|-----------|-------------------------------|  
-| Date       | datetime  | Tanggal pencatatan harga saham |  
-| Open       | float64   | Harga pembukaan saham          |  
-| High       | float64   | Harga tertinggi harian         |  
-| Low        | float64   | Harga terendah harian          |  
-| Close      | float64   | Harga penutupan saham          |  
-| Adj Close  | float64   | Harga penutupan disesuaikan    |  
-| Volume     | float64   | Volume perdagangan saham       |  
+### Variabel-variabel pada Dataset:
+| Kolom      | Tipe Data | Deskripsi                     | 
+|------------|-----------|-------------------------------|
+| Date       | datetime  | Tanggal pencatatan harga      |
+| Open       | float64   | Harga pembukaan harian        |
+| High       | float64   | Harga tertinggi harian        |
+| Low        | float64   | Harga terendah harian         |
+| Close      | float64   | Harga penutupan harian        |
+| Adj Close  | float64   | Harga penutupan disesuaikan   |
+| Volume     | float64   | Volume perdagangan            |
 
-**Statistik Deskriptif**:  
-- Jumlah data: **1212 observasi** (07/11/2019 - 22/10/2024).  
-- Tidak ada missing values atau data null.  
-
-**Korelasi Antar Variabel**:  
-- Korelasi sangat kuat (>0.99) antar variabel harga (Open, High, Low, Close, Adj Close).  
-- Korelasi rendah antara Volume dan variabel harga (~0.1).  
+**Analisis Data**:
+- 1212 observasi (07/11/2019 - 22/10/2024)
+- Tidak ada missing values
+- Korelasi >0.99 antar variabel harga
+- Korelasi rendah (~0.1) antara Volume dan harga
 
 **Visualisasi Data**:  
 ![Grafik Harga TLKM](High_and_low_TLKM_Stock.png)  
-*Grafik menunjukkan tren harga saham TLKM dari 2019 hingga 2024.*  
-
----
+*Tren harga saham TLKM 2019-2024 menunjukkan pola fluktuasi signifikan*
 
 ## Data Preparation
 
-1. **Pemilihan Kolom**: Kolom `Close` dipilih sebagai target prediksi.  
-2. **Normalisasi Data**: Menggunakan `MinMaxScaler` untuk menskalakan data ke rentang [0, 1].  
-3. **Pembagian Data**:  
-   - Data latih: 80% (969 observasi).  
-   - Data uji: 20% (243 observasi).  
-4. **Windowing**: Membuat input LSTM dengan window 60 langkah waktu sebelumnya untuk memprediksi 1 langkah ke depan.  
-5. **Reshape Data**: Data diubah ke format 3 dimensi (samples, timesteps, features) untuk kompatibilitas LSTM.  
+1. **Pemilihan Fitur**:
+   - Target: Kolom `Close` sebagai representasi harga akhir
+   - Alasan: Paling relevan untuk keputusan investasi
 
----
+2. **Normalisasi**:
+   - Menggunakan MinMaxScaler (rentang 0-1)
+   - Tujuan: Mempercepat konvergensi model
+
+3. **Pembagian Data**:
+   - 80% data latih (969 observasi)
+   - 20% data uji (243 observasi)
+   - Mempertahankan urutan temporal
+
+4. **Windowing**:
+   - Input: 60 timesteps (≈3 bulan trading)
+   - Output: 1 timestep prediksi
+   - Rasional: Menangkap pola musiman jangka menengah
 
 ## Modeling
 
-### Arsitektur Model LSTM  
-Model terdiri dari:  
-1. **LSTM Layer Pertama**: 64 unit dengan `return_sequences=True` untuk mempertahankan urutan waktu.  
-2. **Dropout Layer**: Rate 0.2 untuk mengurangi overfitting.  
-3. **LSTM Layer Kedua**: 64 unit dengan `return_sequences=False`.  
-4. **Dense Layers**: 32 dan 16 unit dengan aktivasi ReLU untuk ekstraksi fitur.  
-5. **Output Layer**: 1 unit untuk prediksi harga.  
+**Arsitektur LSTM**:
+1. LSTM Layer (64 units, return_sequences=True)
+2. Dropout Layer (rate=0.2)
+3. LSTM Layer (64 units, return_sequences=False) 
+4. Dense Layers (32 & 16 units, activation='relu')
+5. Output Layer (1 unit)
 
-**Parameter Pelatihan**:  
-- Optimizer: Adam.  
-- Loss function: MSE.  
-- Metrics: MAE.  
-- Epochs: 100 dengan EarlyStopping.  
+**Alasan Pemilihan**:
+- Dua lapis LSTM untuk menangkap pola kompleks
+- Dropout mencegah overfitting
+- Dense layers mengekstrak fitur non-linear
 
-**Hasil Pelatihan**:  
+**Parameter Pelatihan**:
+- Optimizer: Adam (learning_rate=0.001)
+- Loss: Mean Squared Error
+- Metrics: Mean Absolute Error
+- Epochs: 100 dengan EarlyStopping
+
+**Visualisasi Pelatihan**:  
 ![Losses](losses.png)  
-*Grafik menunjukkan penurunan loss (MSE dan MAE) selama pelatihan.*  
-
----
+*Grafik menunjukkan konvergensi model yang stabil*
 
 ## Evaluation
 
-### Metrik Evaluasi  
-| Metric         | Nilai       |  
-|----------------|-------------|  
-| Test Loss (MSE)| 0.000883    |  
-| Test MAE       | 0.0224      |  
-| MAE Aktual     | 49.53 IDR   |  
-| Error Relatif  | 1.42%       |  
+**Metrik Evaluasi**:
+| Metric   | Nilai     | Interpretasi               |
+|----------|-----------|----------------------------|
+| MSE      | 0.000883  | Error kuadrat rata-rata     |
+| MAE      | 0.0224    | Error absolut rata-rata    |
+| MAE (IDR)| 49.53     | Kesalahan ±Rp49.53         |
+| Error    | 1.42%     | Sangat baik untuk prediksi |
+
+**Analisis Hasil**:
+1. **Problem Statement 1**:
+   - MAE 1.42% membuktikan model mampu memprediksi fluktuasi harga
+   - Mengurangi ketergantungan pada analisis manual
+
+2. **Problem Statement 2**:
+   - Akurasi 98.58% memenuhi kebutuhan prediksi investasi
+   - Memberikan dasar objektif untuk keputusan trading
 
 **Visualisasi Prediksi**:  
 ![Prediksi Saham](prediksi_saham.png)  
-*Grafik menunjukkan prediksi harga saham (merah) vs. harga aktual (biru).*  
+*Prediksi (merah) sangat mendekati harga aktual (biru)*
 
-### Analisis Terkait Business Understanding  
-1. **Problem Statement 1**: Model berhasil memprediksi fluktuasi harga dengan MAE 1.42%, menjawab kebutuhan prediksi yang akurat.  
-2. **Problem Statement 2**: LSTM efektif menangkap pola historis, memberikan proyeksi harga yang berguna bagi investor.  
-3. **Solution Statements**:  
-   - Arsitektur LSTM + optimasi hyperparameter terbukti efektif (MAE rendah).  
-   - Data 5 tahun cukup untuk pelatihan model yang stabil.  
-
-### Rekomendasi  
-1. Tambahkan fitur fundamental (e.g., P/E ratio) dan teknikal (e.g., RSI).  
-2. Eksperimen dengan arsitektur LSTM lebih dalam atau hybrid model.  
+**Rekomendasi Pengembangan**:
+1. Penambahan fitur fundamental (P/E ratio)
+2. Eksperimen dengan model hybrid
+3. Implementasi sistem real-time
 
 ---
 
 **Referensi**:  
-1. Dataset: [Yahoo Finance - TLKM.JK](https://finance.yahoo.com/quote/TLKM.JK).  
-2. Windha Mega Pradnya Dhuhita et al. (2023). *Gold Price Prediction Using LSTM*. IEEE.  
-
---- 
+1. Dataset: [Yahoo Finance - TLKM.JK](https://finance.yahoo.com/quote/TLKM.JK)  
+2. Dhuhita, W.M.P. (2023). Gold Price Prediction Using LSTM. IEEE.  
+3. IEEE Reference Guide. https://journals.ieeeauthorcenter.ieee.org  
